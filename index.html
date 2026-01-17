@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AMC 8 Math Adventure!</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <h1>🧮 AMC 8 Math Adventure 🚀</h1>
+            <p class="subtitle">Prepare for the AMC 8 with fun practice problems!</p>
+        </header>
+
+        <!-- Main Menu -->
+        <div id="mainMenu" class="screen active">
+            <div class="welcome-card">
+                <h2>Welcome, Math Explorer! 🌟</h2>
+                <p>Choose a topic to start your practice:</p>
+            </div>
+
+            <div class="topic-grid">
+                <button class="topic-btn" onclick="startTopic('counting')">
+                    <div class="topic-icon">🔢</div>
+                    <h3>Counting & Logic</h3>
+                    <p>Patterns, sequences, and counting</p>
+                </button>
+
+                <button class="topic-btn" onclick="startTopic('geometry')">
+                    <div class="topic-icon">📐</div>
+                    <h3>Geometry</h3>
+                    <p>Shapes, areas, and angles</p>
+                </button>
+
+                <button class="topic-btn" onclick="startTopic('algebra')">
+                    <div class="topic-icon">🔤</div>
+                    <h3>Algebra Basics</h3>
+                    <p>Variables and equations</p>
+                </button>
+
+                <button class="topic-btn" onclick="startTopic('number')">
+                    <div class="topic-icon">🎲</div>
+                    <h3>Number Theory</h3>
+                    <p>Primes, factors, and divisibility</p>
+                </button>
+
+                <button class="topic-btn" onclick="startTopic('probability')">
+                    <div class="topic-icon">🎯</div>
+                    <h3>Probability</h3>
+                    <p>Chance and likelihood</p>
+                </button>
+
+                <button class="topic-btn" onclick="startTopic('mixed')">
+                    <div class="topic-icon">🌈</div>
+                    <h3>Mixed Practice</h3>
+                    <p>Random problems from all topics</p>
+                </button>
+            </div>
+
+            <div class="stats-section">
+                <h3>Your Progress 📊</h3>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number" id="totalSolved">0</div>
+                        <div class="stat-label">Problems Solved</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="correctRate">0%</div>
+                        <div class="stat-label">Accuracy</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="streak">0</div>
+                        <div class="stat-label">Current Streak 🔥</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Problem Screen -->
+        <div id="problemScreen" class="screen">
+            <div class="problem-header">
+                <button class="back-btn" onclick="backToMenu()">← Back to Menu</button>
+                <div class="progress-info">
+                    <span id="topicName"></span>
+                    <span id="problemNumber"></span>
+                </div>
+            </div>
+
+            <div class="problem-card">
+                <div class="difficulty-badge" id="difficultyBadge"></div>
+                <div class="problem-text" id="problemText"></div>
+
+                <div id="imageContainer" class="image-container" style="display: none;">
+                    <canvas id="problemCanvas"></canvas>
+                </div>
+
+                <div class="answer-section">
+                    <input type="number" id="answerInput" placeholder="Enter your answer" />
+                    <button class="submit-btn" onclick="checkAnswer()">Check Answer ✓</button>
+                </div>
+
+                <div class="hint-section">
+                    <button class="hint-btn" onclick="showHint()" id="hintBtn">💡 Need a Hint?</button>
+                    <div id="hintText" class="hint-text" style="display: none;"></div>
+                </div>
+
+                <div id="feedback" class="feedback"></div>
+
+                <div id="explanation" class="explanation" style="display: none;">
+                    <h4>Explanation:</h4>
+                    <p id="explanationText"></p>
+                    <button class="next-btn" onclick="nextProblem()">Next Problem →</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Screen -->
+        <div id="resultsScreen" class="screen">
+            <div class="results-card">
+                <h2>Great Job! 🎉</h2>
+                <div class="results-stats">
+                    <p>You solved <strong id="sessionSolved">0</strong> problems</p>
+                    <p>Accuracy: <strong id="sessionAccuracy">0%</strong></p>
+                    <p id="encouragement"></p>
+                </div>
+                <button class="big-btn" onclick="backToMenu()">Back to Menu</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
