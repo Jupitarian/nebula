@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo Organizer</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>Todo Organizer</h1>
+            <p class="subtitle">Stay organized, get things done</p>
+        </header>
+
+        <div class="stats-bar">
+            <div class="stat">
+                <span class="stat-number" id="totalTasks">0</span>
+                <span class="stat-label">Total</span>
+            </div>
+            <div class="stat">
+                <span class="stat-number" id="activeTasks">0</span>
+                <span class="stat-label">Active</span>
+            </div>
+            <div class="stat">
+                <span class="stat-number" id="completedTasks">0</span>
+                <span class="stat-label">Done</span>
+            </div>
+        </div>
+
+        <div class="add-todo-section">
+            <input type="text" id="todoInput" placeholder="What needs to be done?" maxlength="200">
+            <button class="add-btn" onclick="addTodo()">Add</button>
+        </div>
+
+        <div class="filter-section">
+            <button class="filter-btn active" onclick="setFilter('all')" data-filter="all">All</button>
+            <button class="filter-btn" onclick="setFilter('active')" data-filter="active">Active</button>
+            <button class="filter-btn" onclick="setFilter('completed')" data-filter="completed">Completed</button>
+        </div>
+
+        <div class="todo-list" id="todoList">
+            <!-- Todos will be rendered here -->
+        </div>
+
+        <div class="empty-state" id="emptyState">
+            <div class="empty-icon">📝</div>
+            <p>No todos yet! Add one above to get started.</p>
+        </div>
+
+        <div class="actions-bar" id="actionsBar">
+            <button class="clear-btn" onclick="clearCompleted()">Clear Completed</button>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
