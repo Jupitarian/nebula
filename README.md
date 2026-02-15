@@ -1,162 +1,65 @@
-# AMC 8 Math Adventure 🧮🚀
+# Mobile Offers Dashboard
 
-A sophisticated, interactive web application designed to help fourth-grade students prepare for the AMC 8 (American Mathematics Competition for middle school students).
+A real-time dashboard that scrapes and displays the latest phone and wireless plan offers from **Mint Mobile**, **Visible**, and **Boost Mobile**.
 
 ## Features
 
-### 📚 Comprehensive Topic Coverage
-- **Counting & Logic**: Patterns, sequences, permutations, and logical reasoning
-- **Geometry**: Perimeters, areas, angles, shapes, and spatial reasoning
-- **Algebra Basics**: Simple equations, variables, and algebraic thinking
-- **Number Theory**: Prime numbers, factors, divisibility, GCF, and LCM
-- **Probability**: Basic probability concepts, counting outcomes
-- **Mixed Practice**: Random problems from all topics for well-rounded practice
+- **Live scraping** from carrier websites with multi-source fallback
+- **Refresh button** to pull the latest offers on demand
+- **Card view** showing each carrier's plans, pricing, and features
+- **Comparison view** with sortable table across all carriers
+- **Filter and sort** plans by carrier and price
+- **Promotions display** with badges and expiration dates
+- **5-minute cache** to avoid excessive requests
+- **Dark theme** dashboard UI
 
-### 🎯 Difficulty Levels
-Each topic includes problems at three difficulty levels:
-- **Easy**: Foundation-building problems
-- **Medium**: Intermediate challenges
-- **Hard**: Advanced problems for deeper understanding
+## Quick Start
 
-### 💡 Learning Support
-- **Hints**: Every problem includes a helpful hint to guide students
-- **Detailed Explanations**: Step-by-step solutions help students understand the concepts
-- **Immediate Feedback**: Encouraging messages for both correct and incorrect answers
+```bash
+npm install
+npm start
+```
 
-### 📊 Progress Tracking
-- **Total Problems Solved**: Track cumulative progress
-- **Accuracy Rate**: Monitor improvement over time
-- **Current Streak**: Stay motivated with streak tracking
-- **Session Statistics**: View performance after each practice session
-- **Persistent Storage**: Progress is saved using localStorage
+Then open [http://localhost:3000](http://localhost:3000).
 
-### 🎨 Kid-Friendly Design
-- Colorful, engaging interface with gradient backgrounds
-- Large, easy-to-read fonts
-- Interactive animations and transitions
-- Encouraging messages and emoji feedback
-- Responsive design works on desktop, tablet, and mobile
+## Architecture
 
-## How to Use
-
-### Getting Started
-1. Open `index.html` in any modern web browser
-2. Select a topic from the main menu
-3. Start solving problems!
-
-### During Practice
-1. Read the problem carefully
-2. Enter your numeric answer in the input field
-3. Click "Check Answer" or press Enter
-4. If stuck, click "💡 Need a Hint?" for guidance
-5. Review the explanation after each problem
-6. Click "Next Problem" to continue
-
-### Navigation
-- Use the "Back to Menu" button to return to topic selection
-- Your progress is automatically saved
-- You can switch between topics anytime
-
-## Technical Details
-
-### Technologies Used
-- Pure HTML5, CSS3, and JavaScript (no dependencies!)
-- LocalStorage API for persistent data
-- CSS Grid and Flexbox for responsive layout
-- CSS animations for smooth transitions
-
-### File Structure
 ```
 nebula/
-├── index.html      # Main HTML structure
-├── styles.css      # All styling and animations
-├── app.js          # Application logic and problem database
-└── README.md       # This file
+├── server.js              # Express server with caching
+├── scrapers/
+│   ├── utils.js           # Shared HTTP fetch with browser headers
+│   ├── mint.js            # Mint Mobile scraper (multi-source)
+│   ├── visible.js         # Visible scraper (multi-source)
+│   └── boost.js           # Boost Mobile scraper (multi-source)
+├── public/
+│   ├── index.html         # Dashboard HTML
+│   ├── styles.css         # Dark theme styles
+│   └── app.js             # Frontend logic
+├── package.json
+└── README.md
 ```
 
-### Browser Compatibility
-Works on all modern browsers:
-- Chrome 60+
-- Firefox 55+
-- Safari 12+
-- Edge 79+
+## API Endpoints
 
-## Educational Benefits
+| Endpoint | Description |
+|---|---|
+| `GET /api/offers` | Get all carrier offers (cached) |
+| `GET /api/offers?refresh=true` | Force re-scrape from sources |
+| `GET /api/offers/:carrier` | Get single carrier (`mint`, `visible`, `boost`) |
 
-### Aligned with AMC 8 Content
-Problems are modeled after actual AMC 8 questions, covering:
-- Arithmetic and number sense
-- Elementary geometry
-- Basic algebra
-- Combinatorics and counting
-- Probability and statistics
-- Logical reasoning
+## Scraping Strategy
 
-### Skill Development
-- **Problem-Solving**: Develops critical thinking skills
-- **Mathematical Reasoning**: Builds logical thinking abilities
-- **Self-Paced Learning**: Students learn at their own pace
-- **Immediate Feedback**: Helps reinforce correct understanding
-- **Growth Mindset**: Encouraging messages promote persistence
+Each carrier scraper attempts multiple sources in order:
 
-### For Parents and Teachers
-- No account or login required
-- Safe, offline-capable application
-- Track student progress through statistics
-- Problems increase in difficulty to challenge students
-- Can be used for homework or independent practice
+1. **Direct** - Fetch from the carrier's website with browser-like headers
+2. **Aggregator** - Scrape comparison sites (WhistleOut, TechRadar, Tom's Guide)
+3. **Fallback** - Return known plan data as a baseline
 
-## Customization
+Carrier websites use bot protection (Cloudflare/WAF), so the scrapers gracefully fall back to alternative sources when direct access is blocked.
 
-### Adding More Problems
-To add problems, edit the `problemDatabase` object in `app.js`:
+## Carriers Covered
 
-```javascript
-problemDatabase.geometry.push({
-    difficulty: 'medium',
-    question: 'Your question here?',
-    answer: 42,
-    hint: 'A helpful hint',
-    explanation: 'Detailed explanation of the solution'
-});
-```
-
-### Styling Changes
-Modify `styles.css` to customize:
-- Colors (gradient backgrounds, button colors)
-- Fonts and sizes
-- Spacing and layout
-- Animations and transitions
-
-## Performance Features
-- Lightweight (no external dependencies)
-- Fast loading times
-- Smooth animations
-- Efficient state management
-- Optimized for mobile devices
-
-## Privacy
-- All data stored locally on the user's device
-- No external API calls
-- No user tracking or analytics
-- Completely private and secure
-
-## Future Enhancements
-Potential features for future versions:
-- More problems in each category
-- Timed practice mode
-- Printable problem sets
-- Multi-language support
-- Achievement badges
-- Parent/teacher dashboard
-- Export progress reports
-
-## License
-This is an educational project created to help students prepare for AMC 8.
-
-## Support
-For issues or questions, please refer to the codebase documentation.
-
----
-
-**Happy Learning! Good luck with your AMC 8 preparation! 🌟**
+- **Mint Mobile** - 4 plans on T-Mobile 5G/4G LTE (5GB, 15GB, 20GB, Unlimited)
+- **Visible** - 3 plans on Verizon 5G/4G LTE (Visible, Visible+, Visible+ Pro)
+- **Boost Mobile** - 5 plans on T-Mobile 5G/4G LTE (Unlimited, Unlimited+, Premium, Infinite Access)
